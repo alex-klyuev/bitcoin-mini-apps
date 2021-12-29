@@ -1,13 +1,11 @@
 const getTx = require('../../utils/nodeQueryMethods/getTx');
 
-// This method requires 2n + 2 rpc calls, where n is the number of inputs in the transaction
-const getBiggestInputTx = async (txid) => {
-  const tx = await getTx(txid);
+// Inputs as represented in a transaction don't record the input value
+// This function uses the txid of each input to fetch the full tx where
+// that input was an output and find its value
 
-  // inputs as represented in the transaction; does not hold input value
-  const inputs = tx.vin;
-
-  // use input txids to get input transaction values and their previous txids
+// This method makes 2 * number of inputs rpc calls
+const findBiggestInput = async (inputs) => {
   const inputTxs = [];
 
   for (let i = 0; i < inputs.length; i++) {
@@ -18,7 +16,6 @@ const getBiggestInputTx = async (txid) => {
     const { coinbase } = input;
     if (coinbase) {
       const firstTx = {
-        txid,
         value: tx.vout[0].value,
         coinbase,
       };
@@ -59,4 +56,4 @@ const getBiggestInputTx = async (txid) => {
   return biggestInput;
 };
 
-module.exports = getBiggestInputTx;
+module.exports = findBiggestInput;
