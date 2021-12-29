@@ -1,4 +1,4 @@
-const getTx = require('../../utils/nodeQueryMethods/getTx');
+const getTx = require('../../../utils/nodeQueryMethods/getTx');
 
 // Inputs as represented in a transaction don't record the input value
 // This function uses the txid of each input to fetch the full tx where
