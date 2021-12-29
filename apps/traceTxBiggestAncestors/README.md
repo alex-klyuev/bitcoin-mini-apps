@@ -1,4 +1,6 @@
-## Example Usage
+# Placeholder
+
+### Example Usage
 
 Let's trace the [transaction referenced](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch02.asciidoc#buying-a-cup-of-coffee) in 'Mastering Bitcoin' by Andreas Antonopoulos
 
