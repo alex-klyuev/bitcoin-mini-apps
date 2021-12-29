@@ -52,7 +52,7 @@ const findBiggestInput = async (inputs) => {
     txid: txidOfMax,
   };
 
-  console.log(biggestInput);
+  // console.log(biggestInput);
   return biggestInput;
 };
 
