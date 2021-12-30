@@ -11,5 +11,4 @@ let txid = '0627052b6f28912f2703066a912ea577f2ce4da4caa5a5fbd8a57286c345c2f2';
 
 txid = txid || process.argv[2];
 
-console.log('WE GOT TO THE END!', traceAncestry(txid));
-// traceAncestry(txid);
+traceAncestry(txid);
