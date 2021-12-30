@@ -1,4 +1,6 @@
-const traceAncestry = require('./src/traceAncestry');
+const traceAncestry = require('./src/chain/traceAncestry');
+const createFiles = require('./src/fs/createFiles');
+const writeSummary = require('./src/fs/writeSummary');
 
 // Either input the tx here or on the command line
 let txid = 'b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06';
@@ -13,4 +15,19 @@ let txid = 'b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06';
 
 txid = txid || process.argv[2];
 
-(async () => console.log('FINAL OUTPUT', await traceAncestry(txid)))();
+const header = txid.slice(0,7);
+const dataDir = `${__dirname}/data/${header}`;
+
+// (async () => console.log('FINAL OUTPUT', await traceAncestry(txid)))();
+
+createFiles(header);
+
+const exec = async (txid, header) => {
+  await createFiles(header);
+  const results = await traceAncestry(txid);
+  await writeSummary(results);
+};
+
+// exec(txid, header);
+
+console.log(`Results will be found at ${dataDir}`);

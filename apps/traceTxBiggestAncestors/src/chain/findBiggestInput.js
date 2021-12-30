@@ -1,5 +1,5 @@
-const getTx = require('../../../utils/nodeQueryMethods/transactions/getTx');
-const { convertToSatoshis } = require('./conversions');
+const getTx = require('../../../../utils/nodeQueryMethods/transactions/getTx');
+const { convertToSatoshis } = require('../helper/conversions');
 
 // Inputs as represented in a transaction don't record the input value
 // This function uses the txid of each input to fetch the full tx where

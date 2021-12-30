@@ -1,6 +1,6 @@
-const getTx = require('../../../utils/nodeQueryMethods/transactions/getTx');
+const getTx = require('../../../../utils/nodeQueryMethods/transactions/getTx');
 const findBiggestInput = require('./findBiggestInput');
-const { convertToSatoshis, convertToBtc } = require('./conversions');
+const { convertToSatoshis, convertToBtc } = require('../helper/conversions');
 
 // this function takes a txid and recursively traces the tx ancestry of it,
 // each time picking the largest input as the parent tx to iterate to
@@ -98,6 +98,7 @@ const traceAncestry = async (txid, maxVals) => {
     biggestInput: biggestInput.value,
     txValue,
     txFee,
+    txid,
   };
 
   console.log('TX CHARS', txChars);
