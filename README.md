@@ -14,6 +14,8 @@ Some interesting data points about the ancestry are written to /data.
 
 Found at apps/traceTxBiggestAncestors.
 
+[Example](https://github.com/alex-klyuev/bitcoin-mini-apps/tree/master/apps/traceTxBiggestAncestors#example-usage)
+
 ## CLI Tools
 
 Handy CLI tools to query your node for info that requires one or more RPC calls.
