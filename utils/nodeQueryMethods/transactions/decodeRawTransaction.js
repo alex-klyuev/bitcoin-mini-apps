@@ -1,13 +1,13 @@
-const rpc = require('../nodeConnections/rpc');
+const rpc = require('../../nodeConnections/rpc');
 
-const decodeRawTransaction = async (rawTx) => {
+const decodeRawTransaction = (rawTx) => {
   const options = {
     jsonrpc: '2.0',
     method: 'decoderawtransaction',
     params: [rawTx],
   };
 
-  return await rpc(options);
+  return rpc(options);
 }
 
 module.exports = decodeRawTransaction;

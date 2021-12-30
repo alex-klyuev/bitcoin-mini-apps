@@ -1,4 +1,4 @@
-const getTx = require('../../../utils/nodeQueryMethods/getTx');
+const getTx = require('../../../utils/nodeQueryMethods/transactions/getTx');
 const findBiggestInput = require('./findBiggestInput');
 const { convertToSatoshis, convertToBtc } = require('./conversions');
 
@@ -59,7 +59,7 @@ const traceAncestry = async (txid, maxVals) => {
         ...biggestInput,
       },
     }
-    console.log('COINBASE FROM TRACE', overallChars);
+
     return overallChars;
   }
 

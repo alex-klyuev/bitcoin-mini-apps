@@ -13,6 +13,4 @@ let txid = 'b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06';
 
 txid = txid || process.argv[2];
 
-// traceAncestry(txid);
-
 (async () => console.log('FINAL OUTPUT', await traceAncestry(txid)))();

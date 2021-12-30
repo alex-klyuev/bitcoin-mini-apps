@@ -1,4 +1,4 @@
-const getTx = require('../../../utils/nodeQueryMethods/getTx');
+const getTx = require('../../../utils/nodeQueryMethods/transactions/getTx');
 const { convertToSatoshis } = require('./conversions');
 
 // Inputs as represented in a transaction don't record the input value
@@ -16,12 +16,12 @@ const findBiggestInput = async (inputs) => {
     // check for that here
     const { coinbase } = input;
     if (coinbase) {
+
       const firstTx = {
         biggestInput: {
           coinbase,
         },
       };
-      console.log('COINBASE FROM BIGGEST INPUT', firstTx);
       return firstTx;
     }
 
