@@ -1,4 +1,5 @@
 const getTx = require('../../../utils/nodeQueryMethods/getTx');
+const { convertToSatoshis } = require('./conversions');
 
 // Inputs as represented in a transaction don't record the input value
 // This function uses the txid of each input to fetch the full tx where
@@ -16,8 +17,9 @@ const findBiggestInput = async (inputs) => {
     const { coinbase } = input;
     if (coinbase) {
       const firstTx = {
-        value: tx.vout[0].value,
-        coinbase,
+        biggestInput: {
+          coinbase,
+        },
       };
       console.log('First transaction in lineage (coinbase): ', firstTx);
       return firstTx;
@@ -37,11 +39,18 @@ const findBiggestInput = async (inputs) => {
     });
   }
 
+  // sum the inputs
   // find and return biggest input tx by value
-  let { value: maxVal, txid: txidOfMax } = inputTxs[0];
+  let sum = 0;
+  // let { value: maxVal, txid: txidOfMax } = inputTxs[0];
+  let maxVal = 0;
 
-  for (let i = 1; i < inputTxs.length; i++) {
-    if (inputTxs[i].value > maxVal) {
+  for (let i = 0; i < inputTxs.length; i++) {
+    // convert to satoshis to avoid floating points
+    const inputVal = convertToSatoshis(inputTxs[i].value);
+    sum += inputVal;
+
+    if (inputVal > convertToSatoshis(maxVal)) {
       maxVal = inputTxs[i].value;
       txidOfMax = inputTxs[i].txid;
     }
@@ -52,8 +61,7 @@ const findBiggestInput = async (inputs) => {
     txid: txidOfMax,
   };
 
-  // console.log(biggestInput);
-  return biggestInput;
+  return { biggestInput, totalValInSats: sum };
 };
 
 module.exports = findBiggestInput;
