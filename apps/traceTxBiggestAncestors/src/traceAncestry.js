@@ -59,7 +59,7 @@ const traceAncestry = async (txid, maxVals) => {
         ...biggestInput,
       },
     }
-    console.log(overallChars);
+    console.log('COINBASE FROM TRACE', overallChars);
     return overallChars;
   }
 
@@ -99,6 +99,8 @@ const traceAncestry = async (txid, maxVals) => {
     txValue,
     txFee,
   };
+
+  console.log('TX CHARS', txChars);
 
   return traceAncestry(biggestInput.txid, maxVals);
 };

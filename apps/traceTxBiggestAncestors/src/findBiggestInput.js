@@ -21,7 +21,7 @@ const findBiggestInput = async (inputs) => {
           coinbase,
         },
       };
-      console.log('First transaction in lineage (coinbase): ', firstTx);
+      console.log('COINBASE FROM BIGGEST INPUT', firstTx);
       return firstTx;
     }
 

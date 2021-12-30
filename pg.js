@@ -1,1 +1,2 @@
-console.log(Number('123.45678'));
+const fs = require('fs');
+
