@@ -1,6 +1,6 @@
 # Bitcoin Mini Apps
 
-## Overview
+### Overview
 
 Mini apps to learn Bitcoin & Lightning development
 
