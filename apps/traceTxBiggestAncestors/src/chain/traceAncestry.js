@@ -1,12 +1,17 @@
 const getTx = require('../../../../utils/nodeQueryMethods/transactions/getTx');
 const findBiggestInput = require('./findBiggestInput');
 const { convertToSatoshis, convertToBtc } = require('../helper/conversions');
+const writeTxToFile = require('../fs/writeTxToFile');
 
 // this function takes a txid and recursively traces the tx ancestry of it,
 // each time picking the largest input as the parent tx to iterate to
 
-// It also tracks transactions with the largest input and the most number of inputs
-const traceAncestry = async (txid, maxVals) => {
+// It also tracks transactions with the largest input, most number of inputs,
+// largest transaction value, and largest fee
+const traceAncestry = async (txid, maxVals, originalTxid) => {
+
+  // maintain ref to original txid for file writing in recursive calls
+  if (!originalTxid) originalTxid = txid;
 
   // get the full transaction object from the txid (2 rpc calls)
   const txObj = await getTx(txid);
@@ -25,42 +30,52 @@ const traceAncestry = async (txid, maxVals) => {
   for (let i = 0; i < outputs.length; i++) outputSum += convertToSatoshis(outputs[i].value);
 
   // the first tx in the ancestry will be a coinbase; check for that here
-  // if true, end the recursion and return the maxvals + first transaction up the chain
-  if (biggestInput.coinbase) {
+  // if true, end the recursion, write the coinbase tx, and return the maxvals up the chain
+
+  const { coinbase } = biggestInput;
+  if (coinbase) {
     const value = convertToBtc(outputSum);
 
     // handle case where txid input by user is a coinbase
     if (!maxVals) {
       maxVals = {
         maxNumInputs: {
-          txid: null,
-          value: null,
+          txid,
+          value: 1
         },
         maxInput: {
-          txid: null,
-          value: null,
+          txid,
+          value: 'coinbase',
         },
         maxTxValue: {
           txid,
           value,
         },
         maxTxFee: {
-          txid: null,
-          value: null,
+          txid,
+          value: 0,
         },
       };
     }
 
-    // these are the characteristics we want to summarize about the ancestry chain as a whole
-    const overallChars = {
-      maxVals,
-      firstTx: {
-        value: convertToBtc(outputSum),
-        ...biggestInput,
-      },
-    }
+    // Coinbases have 1 input, 0 txFee, no input values, and the child of the coinbase
+    // must have a txValue >= to the coinbase value (as UTXOs must be consumed entirely)
+    // so we don't have to compare the coinbase to maxVals
 
-    return overallChars;
+    // write the transaction characteristics we care about to the output file
+    const firstTxChars = {
+      numInputs: 1,
+      biggestInput: 'coinbase',
+      txValue: value,
+      txFee: 0,
+      txid,
+    };
+
+    await writeTxToFile(firstTxChars, originalTxid);
+
+    console.log(maxVals);
+
+    return maxVals;
   }
 
   // compute remaining values we want
@@ -101,9 +116,10 @@ const traceAncestry = async (txid, maxVals) => {
     txid,
   };
 
-  console.log('TX CHARS', txChars);
+  await writeTxToFile(txChars, originalTxid);
 
-  return traceAncestry(biggestInput.txid, maxVals);
+  // don't need await here; promise chain will resolve once base case is hit (coinbase tx)
+  return traceAncestry(biggestInput.txid, maxVals, originalTxid);
 };
 
 module.exports = traceAncestry;
