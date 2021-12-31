@@ -20,4 +20,4 @@ Let's trace the [transaction referenced](https://github.com/bitcoinbook/bitcoinb
 node apps/traceTxBiggestAncestors 0627052b6f28912f2703066a912ea577f2ce4da4caa5a5fbd8a57286c345c2f2
 ```
 
-Find output at [apps/traceTxBiggestAncestor/data/0627052.txt](./data/0627052.txt)
+Find output at [apps/traceTxBiggestAncestor/data/0627052](./data/0627052)
