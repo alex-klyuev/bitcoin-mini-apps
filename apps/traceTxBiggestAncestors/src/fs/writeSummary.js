@@ -53,7 +53,7 @@ const writeSummary = async (results, header) => {
 
   const summary = '\n' + data.join('\n');
 
-  const path = `${__dirname}/../../data/${header}/ancestors-summary.txt`;
+  const path = `${__dirname}/../../data/${header}/ancestry-summary.txt`;
   fs.appendFile(path, summary);
 };
 

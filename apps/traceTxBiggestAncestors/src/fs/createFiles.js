@@ -10,7 +10,7 @@ const createFiles = async (header) => {
   const summaryTableTitles = ' Ancestry Highlights                    | Value           | Block Height | Transaction ID ';
 
   await fs.writeFile(`${dataDir}/ancestors.txt`, ancestorTableTitles);
-  await fs.writeFile(`${dataDir}/ancestors-summary.txt`, summaryTableTitles);
+  await fs.writeFile(`${dataDir}/ancestry-summary.txt`, summaryTableTitles);
 };
 
 module.exports = createFiles;
