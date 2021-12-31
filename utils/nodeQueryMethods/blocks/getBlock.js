@@ -6,6 +6,4 @@ const getBlock = async (height) => {
   return getBlockFromHash(hash);
 };
 
-// (async () => console.log(await getBlock(2)))();
-
 module.exports = getBlock;

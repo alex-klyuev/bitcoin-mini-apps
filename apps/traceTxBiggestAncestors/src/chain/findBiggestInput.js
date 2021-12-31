@@ -42,7 +42,6 @@ const findBiggestInput = async (inputs) => {
   // sum the inputs
   // find and return biggest input tx by value
   let sum = 0;
-  // let { value: maxVal, txid: txidOfMax } = inputTxs[0];
   let maxVal = 0;
 
   for (let i = 0; i < inputTxs.length; i++) {
