@@ -1,27 +1,14 @@
 const fs = require('fs/promises');
+const axios = require('axios');
 const formatData = require('./helper/formatData');
 
-let lit = {
-  maxNumInputs: {
-    txid: '6602f2800613e3db64674a11c7997ff26a9fe58d4e599ff5581c24e8fe7ee01a',
-    value: 30
-  },
-  maxInput: {
-    txid: '6602f2800613e3db64674a11c7997ff26a9fe58d4e599ff5581c24e8fe7ee01a',
-    value: 1457.491
-  },
-  maxTxValue: {
-    txid: '6602f2800613e3db64674a11c7997ff26a9fe58d4e599ff5581c24e8fe7ee01a',
-    value: 1500
-  },
-  maxTxFee: {
-    txid: 'b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06',
-    value: 0
-  }
-};
+const createLine = async (label, value, txid, titleLengths) => {
+  // get block height from txid by pinging the blockchain.com API
+  const res = await axios.get(`https://blockchain.info/rawtx/${txid}`);
+  const blockHeight = res.data.block_height;
 
-const createLine = (label, value, txid, titleLengths) => {
-  const order = [label, value, txid];
+  const order = [label, value, blockHeight, txid];
+
   const data = [];
   for (let i = 0; i < titleLengths.length; i++) {
     data.push(
@@ -35,27 +22,29 @@ const createLine = (label, value, txid, titleLengths) => {
   return line;
 };
 
-const writeSummary = async (maxVals, header) => {
-  const tableTitles = ' Ancestry Highlights        | Value           | Transaction ID ';
+const writeSummary = async (results, header) => {
+  const tableTitles = ' Ancestry Highlights                    | Value           | Block Height | Transaction ID ';
   const titles = tableTitles.split('|');
   const titleLengths = titles.map(title => title.length);
 
   const data = [];
-  const keyOrder = ['maxNumInputs', 'maxInput', 'maxTxValue', 'maxTxFee'];
+  const keyOrder = ['inputTxid', 'maxNumInputs', 'maxInput', 'maxTxValue', 'maxTxFee', 'firstTxid'];
 
   const keyToNameMap = {
-    maxNumInputs: ' Most Inputs in a Tx: ',
-    maxInput: ' Largest Input Value in a Tx: ',
-    maxTxValue: ' Largest Transaction Value: ',
-    maxTxFee: ' Largest Transaction Fee: ',
+    inputTxid: 'Input Transaction:',
+    maxNumInputs: 'Most Inputs in a Tx:',
+    maxInput: 'Largest Input Value in a Tx:',
+    maxTxValue: 'Largest Transaction Value:',
+    maxTxFee: 'Largest Transaction Fee:',
+    firstTxid: 'First Tx in Chain (always a coinbase):',
   }
 
   for (let i = 0; i < keyOrder.length; i++) {
     data.push(
-      createLine(
+      await createLine(
         keyToNameMap[keyOrder[i]],
-        maxVals[keyOrder[i]].value,
-        maxVals[keyOrder[i]].txid,
+        results[keyOrder[i]].value,
+        results[keyOrder[i]].txid,
         titleLengths,
       )
     );
@@ -63,12 +52,8 @@ const writeSummary = async (maxVals, header) => {
 
   const summary = '\n' + data.join('\n');
 
-  console.log(summary);
-
-  const path = `${__dirname}/../../data/${header}/ancestors.txt`;
-  fs.appendFile(path, line);
+  const path = `${__dirname}/../../data/${header}/ancestors-summary.txt`;
+  fs.appendFile(path, summary);
 };
-
-writeSummary(lit);
 
 module.exports = writeSummary;

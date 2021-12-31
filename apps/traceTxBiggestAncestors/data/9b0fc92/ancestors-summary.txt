@@ -1,0 +1,7 @@
+ Ancestry Highlights                    | Value           | Block Height | Transaction ID 
+ Input Transaction:                     | -               | 2            | 9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5 
+ Most Inputs in a Tx:                   | 1               | 2            | 9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5 
+ Largest Input Value in a Tx:           | coinbase        | 2            | 9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5 
+ Largest Transaction Value:             | 50              | 2            | 9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5 
+ Largest Transaction Fee:               | 0               | 2            | 9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5 
+ First Tx in Chain (always a coinbase): | -               | 2            | 9b0fc92260312ce44e74ef369f5c66bbb85848f2eddd5a7a1cde251e54ccfdd5 

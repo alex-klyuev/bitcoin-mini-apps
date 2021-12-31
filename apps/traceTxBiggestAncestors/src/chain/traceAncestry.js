@@ -73,9 +73,20 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
 
     await writeTxToFile(firstTxChars, originalTxid);
 
-    console.log(maxVals);
+    // return maxVals as well as input txid and first (coinbase) txid for the summary
+    const results = {
+      inputTxid: {
+        txid: originalTxid,
+        value: '-',
+      },
+      ...maxVals,
+      firstTxid: {
+        txid,
+        value: '-',
+      },
+    };
 
-    return maxVals;
+    return results;
   }
 
   // compute remaining values we want
@@ -92,7 +103,7 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
   // convert to satoshis to avoid comparing floating points
   const curInput = convertToSatoshis(biggestInput.value);
   const maxInputInSats = maxInput ? convertToSatoshis(maxInput.value) : null;
-  if (!maxInput || curInput > maxInputInSats) maxInput = { txid, ...biggestInput };
+  if (!maxInput || curInput > maxInputInSats) maxInput = { txid, value: biggestInput.value };
   const curTxValue = convertToSatoshis(txValue);
   const maxTxValueInSats = maxTxValue ? convertToSatoshis(maxTxValue.value) : null;
   if (!maxTxValue || curTxValue > maxTxValueInSats) maxTxValue = { txid, value: txValue };

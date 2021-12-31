@@ -1,0 +1,7 @@
+ Ancestry Highlights                    | Value           | Block Height | Transaction ID 
+ Input Transaction:                     | -               | 147547       | b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06 
+ Most Inputs in a Tx:                   | 30              | 147502       | 6602f2800613e3db64674a11c7997ff26a9fe58d4e599ff5581c24e8fe7ee01a 
+ Largest Input Value in a Tx:           | 1457.491        | 147547       | b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06 
+ Largest Transaction Value:             | 1500            | 147502       | 6602f2800613e3db64674a11c7997ff26a9fe58d4e599ff5581c24e8fe7ee01a 
+ Largest Transaction Fee:               | 0               | 147547       | b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06 
+ First Tx in Chain (always a coinbase): | -               | 27333        | 193f7c22e0e3bff3b66b0174d1085a55f9c8c2fb83dc40e8c7e46e4ef0975bd7 

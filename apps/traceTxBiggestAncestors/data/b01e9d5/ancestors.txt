@@ -1,0 +1,4 @@
+ Number of Inputs | Biggest Input | Transaction Value | Transaction Fee | Transaction ID 
+ 1                | 1457.491      | 1457.491          | 0               | b01e9d5c65600b5d0a0e6d99c25158722cd9e89eaa049dda740d5fc3bab7cf06 
+ 30               | 50            | 1500              | 0               | 6602f2800613e3db64674a11c7997ff26a9fe58d4e599ff5581c24e8fe7ee01a 
+ 1                | coinbase      | 50                | 0               | 193f7c22e0e3bff3b66b0174d1085a55f9c8c2fb83dc40e8c7e46e4ef0975bd7 
