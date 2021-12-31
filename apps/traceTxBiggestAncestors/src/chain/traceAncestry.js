@@ -8,7 +8,7 @@ const writeTxToFile = require('../fs/writeTxToFile');
 
 // It also tracks transactions with the largest input, most number of inputs,
 // largest transaction value, and largest fee
-const traceAncestry = async (txid, maxVals, originalTxid) => {
+const traceAncestry = async (txid, tracker, originalTxid) => {
 
   // maintain ref to original txid for file writing in recursive calls
   if (!originalTxid) originalTxid = txid;
@@ -37,6 +37,10 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
     const value = convertToBtc(outputSum);
 
     // handle case where txid input by user is a coinbase
+    if (!tracker) tracker = {};
+    let { counter, maxVals } = tracker;
+    if (!counter) counter = 0;
+    counter++;
     if (!maxVals) {
       maxVals = {
         maxNumInputs: {
@@ -84,6 +88,10 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
         txid,
         value: '-',
       },
+      counter: {
+        txid: '-',
+        value: counter,
+      },
     };
 
     return results;
@@ -95,6 +103,9 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
   const txFee = convertToBtc(txFeeInSats);
 
   // compare to max vals and update tracker
+  if (!tracker) tracker = {};
+  let { counter, maxVals } = tracker;
+  if (!counter) counter = 0;
   if (!maxVals) maxVals = {};
   let { maxNumInputs, maxInput, maxTxValue, maxTxFee } = maxVals;
 
@@ -111,12 +122,15 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
   const maxTxFeeInSats = maxTxFee ? convertToSatoshis(maxTxFee.value) : null;
   if (!maxTxFee || curTxFee > maxTxFeeInSats) maxTxFee = { txid, value: txFee };
 
+  counter++;
   maxVals = {
     maxNumInputs,
     maxInput,
     maxTxValue,
     maxTxFee,
   };
+
+  tracker = { counter, maxVals };
 
   // write the transaction characteristics we care about to the output file
   const txChars = {
@@ -130,7 +144,7 @@ const traceAncestry = async (txid, maxVals, originalTxid) => {
   await writeTxToFile(txChars, originalTxid);
 
   // don't need await here; promise chain will resolve once base case is hit (coinbase tx)
-  return traceAncestry(biggestInput.txid, maxVals, originalTxid);
+  return traceAncestry(biggestInput.txid, tracker, originalTxid);
 };
 
 module.exports = traceAncestry;

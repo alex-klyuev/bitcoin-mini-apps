@@ -6,7 +6,7 @@ const createFiles = async (header) => {
     await fs.mkdir(dataDir);
   } catch { /* dir exists - nothing needs to be done */ }
 
-  const ancestorTableTitles = ' Number of Inputs | Biggest Input | Transaction Value | Transaction Fee | Transaction ID ';
+  const ancestorTableTitles = ' Number of Inputs | Biggest Input   | Transaction Value | Transaction Fee | Transaction ID ';
   const summaryTableTitles = ' Ancestry Highlights                    | Value           | Block Height | Transaction ID ';
 
   await fs.writeFile(`${dataDir}/ancestors.txt`, ancestorTableTitles);

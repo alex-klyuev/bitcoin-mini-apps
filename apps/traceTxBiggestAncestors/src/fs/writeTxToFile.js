@@ -2,7 +2,7 @@ const fs = require('fs/promises');
 const formatData = require('./helper/formatData');
 
 const writeTxToFile = (txChars, originalTxid) => {
-  const tableTitles = ' Number of Inputs | Biggest Input | Transaction Value | Transaction Fee | Transaction ID ';
+  const tableTitles = ' Number of Inputs | Biggest Input   | Transaction Value | Transaction Fee | Transaction ID ';
   const titles = tableTitles.split('|');
   const titleLengths = titles.map(title => title.length);
 

@@ -4,8 +4,8 @@ const formatData = require('./helper/formatData');
 
 const createLine = async (label, value, txid, titleLengths) => {
   // get block height from txid by pinging the blockchain.com API
-  const res = await axios.get(`https://blockchain.info/rawtx/${txid}`);
-  const blockHeight = res.data.block_height;
+  const res = txid !== '-' ? await axios.get(`https://blockchain.info/rawtx/${txid}`) : null;
+  const blockHeight = res ? res.data.block_height : '-';
 
   const order = [label, value, blockHeight, txid];
 
@@ -28,7 +28,7 @@ const writeSummary = async (results, header) => {
   const titleLengths = titles.map(title => title.length);
 
   const data = [];
-  const keyOrder = ['inputTxid', 'maxNumInputs', 'maxInput', 'maxTxValue', 'maxTxFee', 'firstTxid'];
+  const keyOrder = ['inputTxid', 'maxNumInputs', 'maxInput', 'maxTxValue', 'maxTxFee', 'firstTxid', 'counter'];
 
   const keyToNameMap = {
     inputTxid: 'Input Transaction:',
@@ -37,6 +37,7 @@ const writeSummary = async (results, header) => {
     maxTxValue: 'Largest Transaction Value:',
     maxTxFee: 'Largest Transaction Fee:',
     firstTxid: 'First Tx in Chain (always a coinbase):',
+    counter: 'Total # of Tx\'s in Chain:'
   }
 
   for (let i = 0; i < keyOrder.length; i++) {
