@@ -26,4 +26,4 @@ Example: place the following into your ~/.bash_aliases
 alias get-block="node /<path>/bitcoin-mini-apps/utils/cli-tools/getBlock.js"
 ```
 
-Now use get-block on the command line to get a block object from a block header number.
+Now use get-block on the command line to get a block object from a block height number.
