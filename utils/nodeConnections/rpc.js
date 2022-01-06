@@ -6,7 +6,7 @@ const rpc = async (params) => {
     const res = await axios.post(`http://${user}:${password}@${adr}:${port}`, params);
     return res.data.result;
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.error);
   }
 };
 
