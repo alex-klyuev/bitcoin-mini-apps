@@ -10,7 +10,7 @@
  *
  * address: recipient address
  *
- * value: amount to send
+ * value: amount to send (in btc)
  *
  * privkey: private key used to sign the transaction / unlock the utxo.
  *
